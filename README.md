@@ -1,2 +1,2 @@
-# CarsRenting Client Code
-This Repo contains Frontend code for Cars Renting System (Angular)
+# VENT_Frontend
+This Repo contains the frontend code for Vehicle Hiring System Project
