@@ -1,2 +1,2 @@
-# VENT_Frontend
-This Repo contains the frontend code for Vehicle Hiring System Project
+# Cars Renting System
+This Repo contains the frontend code for Cars Renting System Project
