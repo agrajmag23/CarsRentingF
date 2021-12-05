@@ -1,0 +1,23 @@
+
+<div class="row">
+    <div class="col-md-6 p-5">
+        <img class="w-100" src="../../assets/status.jpeg" alt="">
+    </div>
+    <div class="col-md-6 p-5">
+        <div class="container pt-2">
+            <h2 class="text-center">Availability Status of Vehicles.</h2>
+            <div class="row pt-2">
+                <div class="card  ml-2 mr-2 mt-2 mb-2" *ngFor="let sts of status" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5>Vehicle Type: {{sts.vehicleType}}</h5>
+                        <h6>Availability Count: {{sts.count}}</h6>
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </div>
+</div>
+
+
+
+<div class="text-danger" *ngIf="errorMessage">Can't Fetch Availability Status Details from Server.</div>

@@ -1,0 +1,56 @@
+<div class="row pt-4 pb-5">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                <h3 class="mb-0">Register</h3>
+            </div>
+            <div class="card-body">
+                <form action="" [formGroup]="regisForm" (ngSubmit)="registerUser()">
+                    <div class="form-group">
+                        <label for="userName">Username</label>
+                        <input type="text" class="form-control " formControlName="userName">
+                        <span *ngIf="regisForm.controls.userName.invalid && regisForm.controls.userName.dirty" class="text-danger">
+                            Enter a valid format of username.
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control " formControlName="password">
+                        <span *ngIf="regisForm.controls.password.invalid && regisForm.controls.password.dirty" class="text-danger">
+                            Enter a valid format of password.
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select name="" id="" class="form-control" formControlName="role">
+                            <option value="">-- SELECT --</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
+                        <span *ngIf="regisForm.controls.role.invalid && regisForm.controls.role.dirty" class="text-danger">
+                            Select a valid role.
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" [disabled]="regisForm.invalid"  class="btn btn-primary">Register</button>
+                    </div>
+                    <span *ngIf="successMessage" class="text-success">{{successMessage}}</span>
+                    <span *ngIf="errorMessage" class="text-danger"><br>{{errorMessage}}</span>
+                    
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h5 class="text-danger">Few things to keep in mind while Registering as an User/Admin:</h5>
+        <ul class="text-danger">
+            <li>User Account will not be able to Update Vehicle Details and Admin Account will not be able to Book Vehicle.
+                 So, Register your account accordingly and as per your requirement.</li>
+            <li>If in case in future, you forget your password, contact the Technical Support/HelpDesk, <br>Here @
+                    <a href="/contact"> Technical Support --></a>
+            </li>
+        </ul>
+    </div>
+</div>

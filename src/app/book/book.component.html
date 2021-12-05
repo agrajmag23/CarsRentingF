@@ -1,0 +1,237 @@
+<div *ngIf="userId" class="container-fluid p-2">
+    <div class="row d-flex justify-content-center">
+            <h2 class="">Hey {{userName}}, Book a Vehicle !!</h2>
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <button (click)="logout()" class="btn btn-danger">Logout</button>
+    </div>
+    <div class="row">
+        <div class="col-md-6 offset-md-1">
+            <div class="card">
+                <div class="card-header bg-dark text-light">Book Vehicle !</div>
+                <div class="card-body">
+                        <form [formGroup]="bookingForm" (ngSubmit)="book()">
+                            <div class="form-group">
+                                <label for="vehicleName">Enter Vehicle Type: </label>
+                                <select name="" id="" class="form-control" formControlName="vehicleName">
+                                    <option value=""> -- SELECT --</option>
+                                    <option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicleType">{{vehicle.vehicleType}}</option>
+                                </select>
+                                <span *ngIf="bookingForm.controls.vehicleName.invalid && bookingForm.controls.vehicleName.dirty" class="text-danger">
+                                    Select Vehicle Type.
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicleCount">Enter Vehicle Count: </label>
+                                <input type="number" class="form-control" formControlName="vehicleCount">
+                                <span *ngIf="bookingForm.controls.vehicleCount.invalid && bookingForm.controls.vehicleCount.dirty" class="text-danger">
+                                    Enter Valid Count (1 or More).
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookingDate">Enter Booking Date: </label>
+                                <input type="date" class="form-control" formControlName="bookingDate">
+                                <span *ngIf="bookingForm.controls.bookingDate.invalid && bookingForm.controls.bookingDate.dirty" class="text-danger">
+                                    Enter Valid Date.
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="source">Enter Source: </label>
+                                <select name="" id="" class="form-control" formControlName="source">
+                                    <option value=""> -- SELECT --</option>
+                                    <option *ngFor="let city of cities" [value]="city| strManipulate">{{city}}</option>
+                                </select>
+                                <span *ngIf="bookingForm.controls.source.invalid && bookingForm.controls.source.dirty" class="text-danger">
+                                    Select Source.
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="destination">Enter Destination: </label>
+                                <select name="" id="" class="form-control" formControlName="destination">
+                                    <option value=""> -- SELECT --</option>
+                                    <option *ngFor="let city of cities" [value]="city| strManipulate">{{city}}</option>
+                                </select>
+                                <span *ngIf="bookingForm.controls.destination.invalid && bookingForm.controls.destination.dirty" class="text-danger">
+                                    Select Destination.
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="duration">Enter Duration (in days): </label>
+                                <input type="number" class="form-control" formControlName="duration">
+                                <span *ngIf="bookingForm.controls.duration.invalid && bookingForm.controls.duration.dirty" class="text-danger">
+                                    Enter Valid Count (1 or More).
+                                </span>
+                            </div>
+                            <button type="submit" [disabled]="bookingForm.invalid" class="btn btn-dark">Book Vehicle</button>
+                        </form>
+                        <div>
+                            <span *ngIf="errorMessageBooking" class="text-danger">{{errorMessageBooking}}</span>
+                        </div>
+                        <div>
+                            <span *ngIf="successMessageBooking" class="text-success">{{successMessageBooking}}</span>
+                        </div>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-header bg-dark text-light">Make Payment</div>
+                <div class="card-body">
+                    <form [formGroup]="PaymentForm" (ngSubmit)="makePayment()">
+                        <div >
+                            <label for="">Booking Id:</label>
+                            <input type="number" class="form-control" formControlName="bid">
+                            <span *ngIf="PaymentForm.controls.bid.invalid && PaymentForm.controls.bid.dirty" class="text-danger">
+                                Enter a valid booking ID.
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment_type">Payment Type</label>
+                            <select name="" id="" class="form-control" formControlName="payment_type">
+                                <option value=""> -- SELECT --</option>
+                                <option value="UPI">UPI</option>
+                                <option value="Debit/Credit Card">Debit/Credit Card</option>
+                            </select>
+                            <span *ngIf="PaymentForm.controls.payment_type.invalid && PaymentForm.controls.payment_type.dirty" class="text-danger">
+                                Select a valid Payment Option.
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment_info">Payment Info</label>
+                            <input type="text" class="form-control" formControlName="payment_info">
+                        
+                        <span *ngIf="PaymentForm.controls.payment_info.invalid && PaymentForm.controls.payment_info.dirty" class="text-danger">
+                            Select a valid format of Payment Info.
+                        </span>
+                        </div>
+                        
+                        <button type="submit" [disabled]="PaymentForm.invalid" class="btn btn-dark">Pay</button>
+                    </form>
+                    <div>
+                        <span *ngIf="errorMessagePayment" class="text-danger">{{errorMessagePayment}}</span>
+                    </div>
+                    <div>
+                        <span *ngIf="successMessagePayment" class="text-success">{{successMessagePayment}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 offset-md-1">
+            <div>
+                <div class="row d-flex justify-content-center">
+                        <h4>Availability Status</h4>
+                </div>
+                <div class="container-fluid">
+                    <table class="table table-striped border border-dark">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Vehicle Type</th>
+                                <th scope="col">Vehicle Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let vehicle of vehicles">
+                                <td scope="row">{{vehicle.vehicleType}}</td>
+                                <td>{{vehicle.count}}</td>
+                            </tr>
+                        </tbody>   
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                        Give Review
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="reviewForm" (ngSubmit)="giveReview()">
+                        <div class="form-group">
+                            <label for="">Booking Id: </label>
+                            <input type="number" name="" id="" class="form-control" formControlName="bid">
+                            <span *ngIf="reviewForm.controls.bid.invalid && reviewForm.controls.bid.dirty" class="text-danger">
+                                Enter a valid format of Booking Id.
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="rNum">Review: </label>
+                            <input type="number" name="" id="" class="form-control" formControlName="rNum">
+                            <span *ngIf="reviewForm.controls.rNum.invalid && reviewForm.controls.rNum.dirty" class="text-danger">
+                                Enter a valid Review Rate (Range 1-10).
+                            </span>
+                        </div>
+                        <button type="submit" [disabled]="reviewForm.invalid" class="btn btn-dark">Give Review</button>  
+                    </form>
+                    <div>
+                        <span *ngIf="errorMessageReview" class="text-danger">{{errorMessageReview}}</span>
+                    </div>
+                    <div>
+                        <span *ngIf="successMessageReview" class="text-success">{{successMessageReview}}</span>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                        Cancel Booking
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="cancelForm" (ngSubmit)="cancelBooking()">
+                        <div class="form-group">
+                            <label for="">Booking Id: </label>
+                            <input type="number" name="" id="" class="form-control" formControlName="bid">
+                            <span *ngIf="cancelForm.controls.bid.invalid && cancelForm.controls.bid.dirty" class="text-danger">
+                                Enter a valid format of Booking Id.
+                            </span>
+                        </div>
+                        <button type="submit" [disabled]="cancelForm.invalid" class="btn btn-dark">Cancel Booking</button>  
+                    </form>
+                    <div>
+                        <span *ngIf="errorMessageCancel" class="text-danger">{{errorMessageCancel}}</span>
+                    </div>
+                    <div>
+                        <span *ngIf="successMessageCancel" class="text-success">{{successMessageCancel}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <h2 class="">Previous Bookings</h2>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Booking ID</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Count</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Journey Date</th>
+                        <th scope="col">Source</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Distance</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let booking of bookings">
+                        <td scope="row">{{booking.bid}}</td>
+                        <td>{{booking.vehicleName}}</td>
+                        <td>{{booking.vehicleCount}}</td>
+                        <td>{{booking.dateOfRegistration}}</td>
+                        <td>{{booking.bookingDate}}</td>
+                        <td>{{booking.source}}</td>
+                        <td>{{booking.destination}}</td>
+                        <td>{{booking.duration}} days</td>
+                        <td>{{booking.distance}} km</td>
+                        <td>Rs {{booking.amount}}</td>
+                        <td>{{booking.status}}</td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div> 
+    </div>
+</div>
+

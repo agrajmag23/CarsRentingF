@@ -1,0 +1,48 @@
+<div class="row pt-5 pb-5">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                <h3 class="mb-0">Login</h3>
+            </div>
+            <div class="card-body">
+                <form action="" [formGroup]="loginForm" (ngSubmit)="loginUser()">
+                    <div class="form-group">
+                        <label for="userName">Username</label>
+                        <input type="text" class="form-control " formControlName="userName">
+                        <span *ngIf="loginForm.controls.userName.invalid && loginForm.controls.userName.dirty" class="text-danger">
+                            Enter a valid format of username.
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control " formControlName="password">
+                        <span *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.dirty" class="text-danger">
+                            Enter a valid format of password.
+                        </span>
+                    </div>
+                    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary float-left" (click)="loginForm.get('role').setValue('USER')">Login as User</button>
+                    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary float-right" (click)="loginForm.get('role').setValue('ADMIN')">Login as Admin</button>
+                </form>
+                <br>
+                <br>
+                <div>
+                    <span *ngIf="errorMessage" class="text-danger">{{errorMessage}}</span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h5 class="text-danger">Few things to keep in mind while Logging in as an User/Admin:</h5>
+        <ul class="text-danger">
+            <li>Please provide the correct details in order to login into the system. Select the appropriate Role inorder to 
+              buy/hire vehicle on rent or update vehicle details. </li>
+            <li>If in case in future, you forget your password, contact the Technical Support/HelpDesk, <br>Here @
+                    <a href="/contact"> Technical Support --></a>
+            </li>
+        </ul>
+    </div>
+
+</div>
